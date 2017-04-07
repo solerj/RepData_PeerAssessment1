@@ -9,7 +9,7 @@ output: html_document
 
 Set the working directory, read the data and format the date as follows.
 
-```{r q1}
+```{r q1, echo=TRUE}
 library(ggplot2)
 setwd("C:/Users/joso/Desktop/Coursera/Unit 5 - Reproducable Research")
 data <- read.csv("activity.csv")
@@ -20,7 +20,7 @@ head(data)
 
 ## 2. Histogram of the total number of steps taken each day
 
-```{r q2}
+```{r q2, echo=TRUE}
 stepsPerDay <- with(data, aggregate(steps, by = list(date = date), FUN = sum))
 names(stepsPerDay)[2] <- "Steps"
 
@@ -32,7 +32,7 @@ q2
 
 ## 3. Mean and median number of steps taken each day
 
-```{r q3}
+```{r q3, echo=TRUE}
 q3_mean <- mean(stepsPerDay$Steps, na.rm = T)
 q3_median <- median(stepsPerDay$Steps, na.rm = T)
 ```
@@ -42,7 +42,7 @@ The mean is `r q3_mean` and the median is `r q3_median`.
 
 ## 4. Time series plot of the average number of steps taken
 
-```{r q4}
+```{r q4, echo=TRUE}
 stepsPerInterval <- with(subset(data, is.na(steps)==F), aggregate(steps, by = list(interval = interval), FUN = mean))
 names(stepsPerInterval)[2] <- "Steps"
 q4 <- ggplot(stepsPerInterval, aes(x=interval, y=Steps))
@@ -53,7 +53,7 @@ q4
 
 ## 5. The 5-minute interval that, on average, contains the maximum number of steps
 
-```{r q5}
+```{r q5, echo=TRUE}
 q5 <- stepsPerInterval[stepsPerInterval$Steps==max(stepsPerInterval$Steps),1]
 ```
 
@@ -62,7 +62,7 @@ The 5-minute interval that, on average, contains the maximum number of steps is 
 
 ## 6. Code to describe and show a strategy for imputing missing data  
 
-```{r q6}
+```{r q6, echo=TRUE}
 q6_count <- nrow(data[is.na(data$steps)==T,])
 q6_perc <- q6_count/nrow(data)*100
 
@@ -86,7 +86,7 @@ The strategy was to:
 
 ## 7. Histogram of the total number of steps taken each day after missing values are imputed
 
-```{r q7}
+```{r q7, echo=TRUE}
 q7 <- with(q6, aggregate(cleanSteps, by = list(date = date), FUN = sum))
 names(q7)[2] <- "Steps"
 
@@ -103,7 +103,7 @@ Filling in the NAs gives the same mean `r q7_mean` but a slightly different medi
 
 ## 8. Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
-```{r q8}
+```{r q8, echo=TRUE}
 q8 <- q6
 q8$dayWeek <- weekdays(q8$date)
 q8$weekendYN <- q8$dayWeek
